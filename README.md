@@ -43,6 +43,7 @@ You can activate the Python 3.9 environment with:
 source ~/venv/bin/activate
 ```
 
+
 ### Installing Python dependencies
 
 These dependencies are installed as part of the setup process but should you need to install them again, first make sure that the Python 3.9 virtual environment is activated and then use the `make install` command:
