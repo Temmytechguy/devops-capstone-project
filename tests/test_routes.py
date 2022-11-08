@@ -84,11 +84,11 @@ class TestAccountService(TestCase):
         resp = self.client.get("/health")
         self.assertEqual(resp.status_code, 200)
         data = resp.get_json()
-        self.assertEqual(data["status"], "OK")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_account(self):
         """It should Create a new Account"""
-        account = AccountFactory()
+        account = self._create_accounts(1)[0]
         response = self.client.post(
             BASE_URL,
             json=account.serialize(),
@@ -126,7 +126,7 @@ class TestAccountService(TestCase):
     # ADD YOUR TEST CASES HERE ...
     def test_read_an_account(self):
         """It should read a single account"""
-        account = self._create_accounts(1)[0]
+        account = AccountFactory()
         response = self.client.get(f"{BASE_URL}/{account.id}", content_type="application/json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.get_json()
@@ -156,7 +156,7 @@ class TestAccountService(TestCase):
 
     def test_delete_account(self):
         """It should Delete an Account"""
-        account = self._create_accounts(1)[0]
+        account = AccoutFactory()
         resp = self.client.delete(f"{BASE_URL}/{account.id}")
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
 
