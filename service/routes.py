@@ -41,8 +41,8 @@ def index():
 @app.route("/accounts", methods=["POST"])
 def create_accounts():
     """
-    Creates an Account
-    This endpoint will create an Account based the data in the body that is posted
+        Creates an Account
+        This endpoint will create an Account based the data in the body that is posted
     """
     app.logger.info("Request to create an Account")
     check_content_type("application/json")
@@ -50,9 +50,7 @@ def create_accounts():
     account.deserialize(request.get_json())
     account.create()
     message = account.serialize()
-    # Uncomment once get_accounts has been implemented
-    # location_url = url_for("get_accounts", account_id=account.id, _external=True)
-    location_url = "/"  # Remove once get_accounts has been implemented
+    location_url = url_for("get_accounts", account_id=account.id, _external=True)
     return make_response(
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
@@ -62,7 +60,7 @@ def create_accounts():
 ######################################################################
 
 
-# ... place you code here to LIST accounts ...
+#place you code here to LIST accounts ...
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
     """
@@ -79,8 +77,7 @@ def list_accounts():
 # READ AN ACCOUNT
 ######################################################################
 
-
-# ... place you code here to READ an account ...
+#place you code here to READ an account ...
 @app.route("/accounts/<int:account_id>", methods=["GET"])
 def read_account(account_id):
     """
@@ -99,7 +96,7 @@ def read_account(account_id):
 ######################################################################
 
 
-#... place you code here to UPDATE an account...
+#place you code here to UPDATE an account...
 @app.route("/accounts/<int:account_id>", methods=["PUT"])
 def update_accounts(account_id):
     """
