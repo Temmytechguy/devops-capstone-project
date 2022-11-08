@@ -126,7 +126,8 @@ class TestAccountService(TestCase):
     # ADD YOUR TEST CASES HERE ...
     def test_read_an_account(self):
         """It should read a single account"""
-        account = account.find()
+        account = AccountFactory()
+        account.read_account(account['id'])
         response = self.client.get(f"{BASE_URL}/{account.id}", content_type="application/json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.get_json()
@@ -143,7 +144,8 @@ class TestAccountService(TestCase):
         """It should update a single account"""
         #create an Account to update
         test_account = AccountFactory()
-        response = self.client.post(BASE_URL/{test_account.id}, json=test_account.serialize())
+        test_account.updated_account(test_account['id'])
+        response = self.client.post(BASE_URL/{test_account['id']}, json=test_account.serialize())
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         #update the account
@@ -156,14 +158,15 @@ class TestAccountService(TestCase):
 
     def test_delete_account(self):
         """It should Delete an Account"""
-        account = AccoutFactory()
-        resp = self.client.delete(f"{BASE_URL}/{account.id}")
+        test_account = AccountFactory()
+        test_account.delete_accounts(test_account['id'])
+        resp = self.client.delete(f"{BASE_URL}/{test_account['id']}")
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_get_account_list(self):
         """It should Get a list of Accounts"""
-        self._create_accounts(5)
-        resp = self.client.get(BASE_URL)
+        self.list_accounts()
+        resp = self.client.get(f"{BASE_URL})
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(len(data), 5)
