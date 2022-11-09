@@ -137,10 +137,8 @@ class TestAccountService(TestCase):
         """It should read a single account"""
         account = AccountFactory(
         response = self.client.get(f"{BASE_URL}/{account.id}", content_type="application/json")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.get_json()
-        account.name = data["name"]
-        self.assertEqual(data["name"], account.name)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     
     def test_get_account_not_found(self):
