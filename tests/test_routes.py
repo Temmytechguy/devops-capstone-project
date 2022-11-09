@@ -93,7 +93,7 @@ class TestAccountService(TestCase):
         account.name = "temmy"
         account.address = "3 allee francois"
         account.phone_number= "01 234 7474"
-        account.date_joined = "2022-10-20"
+        account.date_joined = "2022-10-20".isoformat()
         response = self.client.post(
             BASE_URL,
             json=account.serialize(),
@@ -139,7 +139,7 @@ class TestAccountService(TestCase):
         response = self.client.get(f"{BASE_URL}/{account.id}", content_type="application/json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.get_json()
-        account.name = data[0]
+        account["name"] = data["name"]
         self.assertEqual(data["name"], account.name)
 
     
