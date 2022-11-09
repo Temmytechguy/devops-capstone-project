@@ -57,6 +57,7 @@ def create_accounts():
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
 
+
 ######################################################################
 # LIST ALL ACCOUNTS
 ######################################################################
@@ -119,11 +120,10 @@ def update_accounts(account_id):
 @app.route("/accounts/<int:account_id>", methods=["DELETE"])
 def delete_accounts(account_id):
     """
-        Delete an Account
-        This endpoint will delete an Account based on the account_id that is requested
+    Delete an Account
+    This endpoint will delete an Account based on the account_id that is requested
     """
     app.logger.info("Request to delete an Account with id: %s", account_id)
-
     account = Account.find(account_id)
     if account:
         account.delete()
