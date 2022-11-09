@@ -137,7 +137,6 @@ class TestAccountService(TestCase):
         """It should read a single account"""
         account = AccountFactory(
         response = self.client.get(f"{BASE_URL}/{account.id}", content_type="application/json")
-        data = response.get_json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     
