@@ -166,7 +166,7 @@ class TestAccountService(TestCase):
     def test_get_account_list(self):
         """It should Get a list of Accounts"""
         self.list_accounts()
-        resp = self.client.get(f"{BASE_URL})
+        resp = self.client.get(f"{BASE_URL}"/accounts)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(len(data), 5)
