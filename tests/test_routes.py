@@ -139,7 +139,7 @@ class TestAccountService(TestCase):
         response = self.client.get(f"{BASE_URL}", content_type="application/json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.get_json()
-        account.name = data[0][data[0].name]
+        account.name = data["name"]
         self.assertEqual(data["name"], account.name)
 
     
@@ -153,7 +153,7 @@ class TestAccountService(TestCase):
         """It should update a single account"""
         #create an Account to update
         test_account = AccountFactory()
-        response = self.client.post(BASE_URL/{test_account.id}, json=test_account.serialize())
+        response = self.client.post(f"{BASE_URL}/{test_account.id}", json=test_account.serialize())
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         #update the account
@@ -171,11 +171,11 @@ class TestAccountService(TestCase):
 
     def test_get_account_list(self):
         """It should Get a list of Accounts"""
-        all_accounts = AccountFactory()
+        all_accounts = all_accounts()
         resp = self.client.get(f"{BASE_URL}", json=all_accounts)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
-        self.assertEqual(len(data), 5)
+        self.assertEqual(len(data), len(all_accounts))
 
 
 
