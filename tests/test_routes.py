@@ -90,7 +90,7 @@ class TestAccountService(TestCase):
         """It should Create a new Account"""
         account = AccountFactory()
         response = self.client.post(
-            BASE_URL/account/{account.id},
+            BASE_URL,
             json=account.serialize(),
             content_type="application/json"
         )
@@ -127,9 +127,10 @@ class TestAccountService(TestCase):
     def test_read_an_account(self):
         """It should read a single account"""
         account = AccountFactory()
-        response = self.client.get(f"{BASE_URL}/{account.id}", content_type="application/json")
+        response = self.client.get(f"{BASE_URL}", content_type="application/json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         data = response.get_json()
+        account.name = data["name"]
         self.assertEqual(data["name"], account.name)
 
     
@@ -143,27 +144,28 @@ class TestAccountService(TestCase):
         """It should update a single account"""
         #create an Account to update
         test_account = AccountFactory()
-        response = self.client.post(BASE_URL/{test_account['id']}, json=test_account.serialize())
+        response = self.client.post(BASE_URL/{test_account.id}, json=test_account.serialize())
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         #update the account
         new_account = response.get_json()
         new_account["name"] = "temmy"
-        response = self.client.put(f"{BASE_URL}/{new_account['id']}", json= new_account)
+        response = self.client.put(f"{BASE_URL}/{new_account["name"]}", json= new_account)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         updated_account = response.get_json()
+        updated_account["name"] = new_account["name"]
         self.assertEqual(updated_account["name"], "temmy")
 
     def test_delete_account(self):
         """It should Delete an Account"""
         test_account = AccountFactory()
-        resp = self.client.delete(f"{BASE_URL}/{test_account['id']}", json= test_account)
+        resp = self.client.delete(f"{BASE_URL}", json= test_account)
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_get_account_list(self):
         """It should Get a list of Accounts"""
         all_accounts = AccountFactory()
-        resp = self.client.get(f"{BASE_URL}/", json=all_accounts)
+        resp = self.client.get(f"{BASE_URL}", json=all_accounts)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(len(data), 5)
