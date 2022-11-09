@@ -88,7 +88,7 @@ class TestAccountService(TestCase):
 
     def test_create_account(self):
         """It should Create a new Account"""
-        account = self._create_accounts(1)[0]
+        account = AccountFactory()
         response = self.client.post(
             BASE_URL,
             json=account.serialize(),
@@ -158,15 +158,14 @@ class TestAccountService(TestCase):
 
     def test_delete_account(self):
         """It should Delete an Account"""
-        test_account = AccountFactory()
-        test_account.delete_accounts(test_account['id'])
-        resp = self.client.delete(f"{BASE_URL}/{test_account['id']}")
+        test_account = response.get_json()
+        resp = self.client.delete(f"{BASE_URL}/{test_account['id']}", json= test_account)
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_get_account_list(self):
         """It should Get a list of Accounts"""
-        self.list_accounts()
-        resp = self.client.get(f"{BASE_URL}"/accounts)
+        all_accounts = response.get_json()
+        resp = self.client.get(f"{BASE_URL}"/all_accounts, json=all_accounts)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
         data = resp.get_json()
         self.assertEqual(len(data), 5)
